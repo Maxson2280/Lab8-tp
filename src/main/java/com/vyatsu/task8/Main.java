@@ -5,12 +5,25 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-
     public static void main(String[] args) {
 
         System.out.println("1 task ");
+        List<String> name = Arrays.asList("Вася","Коля", "Илья", "Никита","Артем","Никита","Вася","Матвей","Яна", "Яна","Артем");
+        System.out.println(name.stream()
+                .collect(Collectors.
+                        groupingBy(String::valueOf, Collectors.counting()))
+                .entrySet().stream()
+                .filter(o -> o.getValue() == name.stream()
+                        .collect(Collectors.groupingBy(String::valueOf, Collectors.counting()))
+                        .values().stream().mapToInt(Long::intValue).max().getAsInt())
+                .map(Map.Entry::getKey)
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.joining(", ","Самые часто встречающееся слова: ","")));
+
+
+        System.out.println(" 2 task ");
         Staff[] staffs = new Staff[]{
-                new Staff("Илья", 18, 140_000),
+                new Staff("Илья", 58, 140_000),
                 new Staff("Илья", 54, 100_000),
                 new Staff("Никита", 23, 90_000),
                 new Staff("Степан", 20, 110_000),
@@ -20,23 +33,8 @@ public class Main {
                 new Staff("Степан", 22, 110_000),
                 new Staff("Степан", 21, 110_000)
         };
-        System.out.println(Arrays.stream(staffs)
-                .map(s -> s.name)
-                .collect(Collectors
-                        .groupingBy(String::valueOf, Collectors.counting()))
-                .entrySet()
-                .stream()
-                .max(Map
-                        .Entry
-                        .comparingByValue())
-                .get()
-                .getKey());
 
-        //System.out.println(wordsByCount);
 
-        //System.out.println(wordsByCount.entrySet().stream().max(Map.Entry.comparingByValue()).get().getKey());
-
-        System.out.println(" 2 task ");
         System.out.println(Arrays.stream(staffs).collect(Collectors.averagingDouble(Staff::getMoney)));
         System.out.println();
 
